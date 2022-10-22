@@ -8,6 +8,10 @@ const cors = require('cors');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+
+require('./config/passport');
+const passport = require('passport'); 
+
 const usersRouter = require('./routes/api/users'); // update the import file path
 const tweetsRouter = require('./routes/api/tweets');
 const csrfRouter = require('./routes/api/csrf');
@@ -18,6 +22,8 @@ app.use(logger('dev')); // log request components (URL/method) to terminal
 app.use(express.json()); // parse JSON request body
 app.use(express.urlencoded({ extended: false })); // parse urlencoded request body
 app.use(cookieParser()); // parse cookies as an object on req.cookies
+
+app.use(passport.initialize());
 
 if (!isProduction) {
     // Enable CORS only in development because React will be on the React
@@ -39,7 +45,7 @@ app.use(
 // Attach Express routers
 app.use('/api/users', usersRouter); // update the path
 app.use('/api/tweets', tweetsRouter);
-app.use('/api/tweets', csrfRouter);
+app.use('/api/csrf', csrfRouter);
 
 
 // Express custom middleware for catching all unmatched requests and formatting
