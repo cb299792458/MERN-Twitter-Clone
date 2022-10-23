@@ -21,10 +21,7 @@ function App() {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);
 
-
-  
   return loaded && (
-  // return  (
     <>
       <NavBar />
       <Switch>
